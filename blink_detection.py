@@ -1,26 +1,25 @@
 import cv2
-from video import create_capture
 import winsound
 from collections import deque
 
 '''
 to do:
-- do image matching on the section of the eyes detected
+- try image matching on the section of the eyes detected
 '''
 
 '''
 This allows basic blink detection using histogram comparison.  To compare the
-different histogram methods set comparing_histograms to True (and press space
-bar to mark each blink).
+different histogram comparisong methods set comparing_histograms to True
+(and press space bar to mark each blink).
 '''
 
 
 video_src = 0
 eye_cascade = cv2.CascadeClassifier('eyes.xml')
-cam = create_capture(video_src)
+cam = cv2.VideoCapture(video_src)
 show_detected_eyes = True
 hist_previous_eyes_que = deque([])
-time_frame = 7
+time_frame = 3
 wait_while_loading = 40
 comparing_histograms = True
 OPENCV_METHODS = (
