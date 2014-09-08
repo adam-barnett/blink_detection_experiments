@@ -35,10 +35,9 @@ graph_histograms = {
 graph_blinks = []
 
 while True:
-  ret, img = cam.read()
+  ret, img = cam.read()  
   if ret:
-      img_copy = cv2.resize(img, (img.shape[1]/2, img.shape[0]/2))
-      gray = cv2.cvtColor(img_copy, cv2.COLOR_BGR2GRAY)
+      gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
       rects = eye_cascade.detectMultiScale(gray, 1.10, 8)
       if len(rects) == 0:
         #the eyes have not been detected
@@ -52,9 +51,8 @@ while True:
           if(width > big_width and height > big_height):
             big_width = width
             big_height = height
-            cv2.rectangle(img_copy, (x, y), (x+width, y+height), (255,0,0), 2)
+            cv2.rectangle(img, (x, y), (x+width, y+height), (255,0,0), 2)
             eye_section = gray[y:y+height, x:x+width]
-            sub_img = img_copy[y:y+height, x:x+width]
             next_eyes = eye_section
             if show_detected_eyes:
               cv2.imshow('eye', eye_section)
@@ -81,7 +79,7 @@ while True:
                 #print 'distance found for ', method_name, 'is', distance
                 graph_histograms[method_name].append(distance)
               print '===='
-      cv2.imshow('eyedetect', img_copy)
+      cv2.imshow('eyedetect', img)
       key_press = cv2.waitKey(20)
       if key_press == 27:
         #if escape is hit then the program shuts down
