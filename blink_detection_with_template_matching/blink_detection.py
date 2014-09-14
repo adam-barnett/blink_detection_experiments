@@ -28,19 +28,6 @@ match_values = {'cv2.TM_CCOEFF':[], 'cv2.TM_CCOEFF_NORMED':[],
                 'cv2.TM_SQDIFF':[], 'cv2.TM_SQDIFF_NORMED':[]}
 graph_blinks = []
 
-def get_expanded_image(img, y, x, height, width):
-  expand = 3
-  img_height, img_width = img.shape
-  upper = max(y-expand, 0)
-  left = max(x-expand, 0)
-  lower = y + height + expand
-  if lower > img_height:
-    lower = y + height
-  right = x + width + expand
-  if right > img_width:
-    right = x + width
-  return img[upper:lower, left:right]
-
 while True:
   ret, img = cam.read()
   if ret:
@@ -58,13 +45,8 @@ while True:
           if(width > big_width and height > big_height):
             big_width = width
             big_height = height
-            expand = 100
             cv2.rectangle(img, (x, y), (x+width, y+height), (255,0,0), 2)
-            print y, x, height, width
-            h,w = gray.shape
-            print h,w
-            print '=='
-            next_eyes = get_expanded_image(gray, y, x, height, width)
+            next_eyes = gray[y:y+height, x:x+width]
         if next_eyes is not None:
           #then we compare them to detect blinks
           graph_blinks.append(0)
