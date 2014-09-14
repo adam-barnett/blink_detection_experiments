@@ -3,11 +3,6 @@ import winsound
 from collections import deque
 
 '''
-to do:
-- try image matching on the section of the eyes detected
-'''
-
-'''
 This allows basic blink detection using histogram comparison.  To compare the
 different histogram comparisong methods set comparing_histograms to True
 (and press space bar to mark each blink).
@@ -35,7 +30,7 @@ graph_histograms = {
 graph_blinks = []
 
 while True:
-  ret, img = cam.read()  
+  ret, img = cam.read()
   if ret:
       gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
       rects = eye_cascade.detectMultiScale(gray, 1.10, 8)
