@@ -46,5 +46,7 @@ while True:
           blink_saved += 1
         else:
           print 'no eyes detected'
+    else:
+        break
             
                               

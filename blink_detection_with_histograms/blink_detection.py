@@ -92,6 +92,8 @@ while True:
           graph_blinks.pop()
           graph_blinks.append(1)
         print 'eyes just shut/opened'
+    else:
+      break
 
 
 

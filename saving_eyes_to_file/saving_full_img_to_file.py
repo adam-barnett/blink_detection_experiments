@@ -21,4 +21,6 @@ while True:
         print 'closing'
         cv2.destroyAllWindows()
         break
+    else:
+        break
                               
