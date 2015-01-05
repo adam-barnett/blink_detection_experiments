@@ -1,22 +1,12 @@
 import wx
 import time
+from FocusFrame import FocusFrame
 
 """
 A simple frame which moves across the screen until stopped either top to
 bottom or left to right.
 Used to specify a particular piece of the screen
 """
-
-#to use later if window is losing focus
-# self.ToggleWindowStyle(wx.STAY_ON_TOP)
-"""
-to do:
-- add custom events (or functions), callable by the main overseer:
-    - one of them to close the frame
-    - another one to stop it and return its current position
-"""
-
-
 
 class MovingFrame(wx.Frame):
     
@@ -38,8 +28,6 @@ class MovingFrame(wx.Frame):
         self.SetBackgroundColour((200,0,0))
         self.panel.SetFocus()
 
-        self.panel.Bind(wx.EVT_RIGHT_UP, self.CloseWindow)
-        self.panel.Bind(wx.EVT_KEY_DOWN, self.OnKeyDown)
         self.timer = wx.Timer(self)
         self.Bind(wx.EVT_TIMER, self.Move, self.timer)
         self.timer.Start(self.speed)
@@ -54,15 +42,14 @@ class MovingFrame(wx.Frame):
             self.SetPosition(pos)
         self.Refresh()
 
-    def OnKeyDown(self, event):
-        key = event.GetKeyCode()
-        if key == wx.WXK_ESCAPE:
-            self.CloseWindow(event)
-        event.Skip()
-        
+    def ToggleStopStart(self, event):
+        if self.timer.IsRunning():
+            self.timer.Stop()
+        else:
+            self.timer.Start(self.speed)
 
     def CloseWindow(self, event):
-        self.Close()
+        self.Close()  
         self.Show(False)
         event.Skip()
 
@@ -70,11 +57,26 @@ class MovingFrame(wx.Frame):
 if __name__ == "__main__":
     class MyApp(wx.App):
         def OnInit(self):
-            frame = MovingFrame()
-            frame.Show(True)
-            frame2 = MovingFrame(moving_horizontally=False)
-            frame2.Show(True)
-            self.SetTopWindow(frame)
+            self.frame1 = MovingFrame()  
+            self.frame1.Show(True)
+            self.frame2 = MovingFrame(moving_horizontally=False)
+            self.frame2.Show(True)
+            self.frame3 = FocusFrame()
+            self.frame3.Show(True)
+            self.SetTopWindow(self.frame1)
+            self.Bind(wx.EVT_CHAR_HOOK, self.KeyPress)
             return True
+
+        def KeyPress(self, event):
+            if event.GetKeyCode() == wx.WXK_SPACE:
+                self.frame1.ToggleStopStart(event)
+                self.frame2.ToggleStopStart(event)
+            elif event.GetKeyCode() == wx.WXK_ESCAPE:
+                self.frame1.CloseWindow(event)
+                self.frame2.CloseWindow(event)
+                self.frame3.CloseWindow(event)
+                self.ExitMainLoop() 
+            
     app = MyApp(0)
+    app.SetCallFilterEvent(True)
     app.MainLoop()
