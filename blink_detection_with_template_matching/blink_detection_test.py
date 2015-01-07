@@ -45,7 +45,7 @@ while True:
         if big_width != 0 and big_height != 0:
           if big_width < shut_shape[1] or big_width < open_shape[1]:
             big_width = max(shut_shape[1], open_shape[1])
-          if big_height < shut_shape[0] or big_height < shut_shape[0]:
+          if big_height < shut_shape[0] or big_height < open_shape[0]:
             big_height = max(shut_shape[0], open_shape[0])
           cv2.rectangle(img, (pos[0], pos[1]),
                         (pos[0]+big_width, pos[1]+big_height), (255,0,0), 2)
