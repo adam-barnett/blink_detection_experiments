@@ -51,7 +51,6 @@ while True:
                         (pos[0]+big_width, pos[1]+big_height), (255,0,0), 2)
           search_image = gray[pos[1]:pos[1]+big_height,
                               pos[0]:pos[0]+big_width]
-          print search_image.shape
       if search_image is not None:
         #then we compare them to detect blinks
         method = eval(COMP_METHOD)
@@ -68,7 +67,6 @@ while True:
           else:
             blink = False
         else:
-          print max_shut_val, max_open_val
           if max_shut_val > max_open_val:
             blink = True
             blink_pos = max_shut_loc
