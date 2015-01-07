@@ -3,21 +3,17 @@ import winsound
 from collections import deque
 import os
 
-"""
-To Do:
-- tidy up this file
-"""
-
 
 '''
 This is a test of basic blink detection using template matching.
+The images of blinking eyes which it captures are saved to the folder
+captured_blinks.
 '''
 
 
 video_src = 0
 eye_cascade = cv2.CascadeClassifier('eyes.xml')
 cam = cv2.VideoCapture(video_src)
-previous_eyes_que = deque([])
 COMP_METHOD = 'cv2.TM_CCOEFF_NORMED'
 open_eyes = cv2.imread('open.png',0)
 shut_eyes = cv2.imread('blink.png',0)
