@@ -2,10 +2,10 @@ import cv2
 import winsound
 from collections import deque
 import os
+from wx.lib.pubsub import pub
 
 """
 To Do:
-- redefine all of the variable in the __init__ as class ones (so self.video_src)
 - write a messaging system using wxpython to communicate with it's controller
   when a blink occurs
 - test the messaging system
@@ -92,6 +92,7 @@ class BlinkDetector():
             #EVENTUALLY - I want to save the blink_img here if eyes were
               #successfully found, for use in subsequent iterations (to account
               #for small changes in light over time)
+            pub.sendMessage("SwitchInput", msg="1")
             if self.test:
               winsound.Beep(2500, 200)
   
@@ -113,6 +114,10 @@ class BlinkDetector():
 
 
 if __name__ == "__main__":
+  
+  def listener(msg): print "message received", msg
+  pub.subscribe(listener, 'SwitchInput')
+
   tester = BlinkDetector(True)
   tester.RunDetect()
 
