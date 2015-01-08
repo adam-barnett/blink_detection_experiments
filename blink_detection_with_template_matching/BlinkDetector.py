@@ -1,7 +1,6 @@
 import cv2
 import winsound
-from collections import deque
-import os
+import os.path
 from wx.lib.pubsub import pub
 
 """
@@ -18,17 +17,27 @@ This allows basic blink detection using template matching.
 
 class BlinkDetector():
   def __init__(self, test=False):
-    video_src = 0
-    self.eye_cascade = cv2.CascadeClassifier('eyes.xml')
-    self.cam = cv2.VideoCapture(video_src)
-    self.COMP_METHOD = 'cv2.TM_CCOEFF_NORMED'
-    self.open_eyes = cv2.imread('open.png',0)
-    self.shut_eyes = cv2.imread('blink.png',0)
-    self.shut_shape = self.shut_eyes.shape
-    self.open_shape = self.open_eyes.shape
-    self.test = test
+    if not (os.path.isfile('eyes.xml') and os.path.isfile('open.png')
+            and os.path.isfile('blink.png')):
+      msg = ('Basic file needed missing, please check folder for eyes.xml, '
+             'open.png and blink.png')
+      pub.sendMessage('Error Message', msg=msg)
+      self.init = False
+    else:
+      self.eye_cascade = cv2.CascadeClassifier('eyes.xml')
+      video_src = 0
+      self.cam = cv2.VideoCapture(video_src)
+      self.COMP_METHOD = 'cv2.TM_CCOEFF_NORMED'
+      self.open_eyes = cv2.imread('open.png',0)
+      self.shut_eyes = cv2.imread('blink.png',0)
+      self.shut_shape = self.shut_eyes.shape
+      self.open_shape = self.open_eyes.shape
+      self.test = test
+      self.init = True
 
   def RunDetect(self):
+    if not self.init:
+      return False
     while True:
       ret, img = self.cam.read()
       if ret:
@@ -115,10 +124,14 @@ class BlinkDetector():
 
 if __name__ == "__main__":
   
-  def listener(msg): print "message received", msg
-  pub.subscribe(listener, 'SwitchInput')
+  def listener1(msg): print "message received", msg
+  pub.subscribe(listener1, 'SwitchInput')
+
+  def listener2(msg): print "Error:- ", msg
+  pub.subscribe(listener2, 'Error Message')
 
   tester = BlinkDetector(True)
   tester.RunDetect()
+    
 
 
