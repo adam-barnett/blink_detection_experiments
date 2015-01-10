@@ -53,6 +53,16 @@ class MovingFrame(wx.Frame):
         self.Show(False)
         event.Skip()
 
+    def IsMoving(self):
+        return self.timer.IsRunning()
+
+    def GivePosition(self):
+        pos = self.GetPosition()
+        if moving_horizontally:
+            return pos.x
+        else:
+            return pos.y
+
 
 if __name__ == "__main__":
     class MyApp(wx.App):
