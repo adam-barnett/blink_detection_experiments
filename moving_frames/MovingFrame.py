@@ -42,16 +42,15 @@ class MovingFrame(wx.Frame):
             self.SetPosition(pos)
         self.Refresh()
 
-    def ToggleStopStart(self, event):
+    def ToggleStopStart(self):
         if self.timer.IsRunning():
             self.timer.Stop()
         else:
             self.timer.Start(self.speed)
 
-    def CloseWindow(self, event):
+    def CloseWindow(self):
         self.Close()  
         self.Show(False)
-        event.Skip()
 
     def IsMoving(self):
         return self.timer.IsRunning()
@@ -79,12 +78,12 @@ if __name__ == "__main__":
 
         def KeyPress(self, event):
             if event.GetKeyCode() == wx.WXK_SPACE:
-                self.frame1.ToggleStopStart(event)
-                self.frame2.ToggleStopStart(event)
+                self.frame1.ToggleStopStart()
+                self.frame2.ToggleStopStart()
             elif event.GetKeyCode() == wx.WXK_ESCAPE:
-                self.frame1.CloseWindow(event)
-                self.frame2.CloseWindow(event)
-                self.frame3.CloseWindow(event)
+                self.frame1.CloseWindow()
+                self.frame2.CloseWindow()
+                self.frame3.CloseWindow()
                 self.ExitMainLoop() 
             
     app = MyApp(0)
