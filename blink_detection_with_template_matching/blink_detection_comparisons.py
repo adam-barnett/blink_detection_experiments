@@ -3,11 +3,6 @@ import winsound
 from collections import deque
 
 '''
-to do:
-- try image matching on the section of the eyes detected
-'''
-
-'''
 This allows basic blink detection using template matching.
 '''
 
