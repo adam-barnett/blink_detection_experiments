@@ -1,5 +1,11 @@
 import wx
 
+"""
+A simple static frame which is used to return the focus to the MovingFrame
+controller so that keyboard commands can be issued.  Neccessary for the reasons
+outlined in MovingFrameExampleProblem.py
+"""
+
 class FocusFrame(wx.Frame):
 
 
