@@ -3,7 +3,6 @@ import winsound
 from collections import deque
 import os
 
-
 '''
 This is a test of basic blink detection using template matching.
 The images of blinking eyes which it captures are saved to the folder
@@ -28,7 +27,6 @@ while True:
       rects = eye_cascade.detectMultiScale(gray, 1.10, 8)
       if len(rects) == 0:
         #the eyes have not been detected
-        print 'no eyes found in camera, searching the whole image'
         search_image = gray
         pos = None
       else:
@@ -95,6 +93,7 @@ while True:
       if key_press == 27:
         #if escape is hit then the program shuts down
         cv2.destroyAllWindows()
+        cam.release()
         break
   else:
     break

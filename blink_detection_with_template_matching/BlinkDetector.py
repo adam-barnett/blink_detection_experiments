@@ -119,6 +119,7 @@ class BlinkDetector():
 
   def Close(self):
     cv2.destroyAllWindows()
+    cam.release()
 
 
 
