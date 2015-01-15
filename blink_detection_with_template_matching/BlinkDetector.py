@@ -3,13 +3,6 @@ import winsound
 import os.path
 from wx.lib.pubsub import pub
 
-"""
-To Do:
-- write a messaging system using wxpython to communicate with it's controller
-  when a blink occurs
-- test the messaging system
-"""
-
 
 '''
 This allows basic blink detection using template matching.
@@ -119,7 +112,7 @@ class BlinkDetector():
 
   def Close(self):
     cv2.destroyAllWindows()
-    cam.release()
+    self.cam.release()
 
 
 
