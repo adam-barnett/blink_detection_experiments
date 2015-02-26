@@ -23,7 +23,7 @@ while True:
     if ret and len(cascades) > 0:
         classifier = cv2.CascadeClassifier(cascades[current_cascade])
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        rects = classifier.detectMultiScale(gray, 1.10, 8)
+        rects = classifier.detectMultiScale(gray, 1.30, 3)
         for x, y, width, height in rects:
             cv2.rectangle(img, (x, y), (x+width, y+height), (255,0,0), 2)
         cv2.imshow(cascades[current_cascade], img)
