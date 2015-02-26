@@ -22,11 +22,11 @@ while True:
             [x, y, width, height] = rects[0]
             cv2.rectangle(img, (x, y), (x+width, y+height), (255,0,0), 2)
             face_img = img[y:y+height, x:x+width]
-            cv2.imshow('current_face_detection', img)
             eyes_top = int(y + height * 0.294)
             eyes_bottom = int(math.ceil(y + height * 0.515))
             eye_img = img[eyes_top:eyes_bottom, x:x+width]
             cv2.imshow('eyes_found', eye_img)
+        cv2.imshow('current_face_detection', img)
         key_press = cv2.waitKey(20)
         if key_press == 32:
             if face_img is not None:
