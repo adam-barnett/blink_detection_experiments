@@ -20,6 +20,10 @@ http://stackoverflow.com/questions/12508934/error-using-knnmatch-with-opencvpyth
 
 and this one seems like a good example to follow:
 http://code.opencv.org/projects/opencv/repository/revisions/master/entry/samples/python2/feature_homography.py
+
+DEFINITELY also check out VLfeat
+http://www.vlfeat.org/
+
 """
 
 
@@ -95,63 +99,104 @@ video_src = 0
 cam = cv2.VideoCapture(video_src)
 wait = 20
 while True:
-    ret, img = cam.read()
+    ret, cam_img = cam.read()
     before = time.time()
     if ret and wait == 0:
 
         blink = cv2.imread('blink.png',0)
-        open_eyes = cv2.imread('open.png', 0)# queryImage
+        open_eyes = cv2.imread('open.png', cv2.CV_LOAD_IMAGE_COLOR)# queryImage
         cv2.imshow('open', open_eyes)
-        cv2.imshow('camera', img)
+        cv2.imshow('camera', cam_img)
 
-        img1 = open_eyes
-        img2 = img
+        img = cam_img
 
-        # Create ORB detector with 1000 keypoints with a scaling pyramid factor
-        # of 1.2
+        img_orb = img.copy()
+        img_sift = img.copy()
+        img_surf = img.copy()
+
         orb = cv2.ORB(1000, 1.2)
-
-        # Detect keypoints of original image
-        (kp1,des1) = orb.detectAndCompute(img1, None)
-
-        # Detect keypoints of rotated image
-        (kp2,des2) = orb.detectAndCompute(img2, None)
-
-        # Create matcher
-        bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
-
-        # Do matching
-        orb_matches = bf.match(des1,des2)
+        kp_orb, des_orb = orb.detectAndCompute(img_orb, None)
+        cv2.drawKeypoints(img_orb, kp_orb, img_orb)
+        cv2.imshow('orb', img_orb)
 
         sift = cv2.SIFT()
-        kp1_2, des1_2 = sift.detectAndCompute(img1,None)
-        kp2_2, des2_2 = sift.detectAndCompute(img2,None)
+        kp_sift, des_sift = sift.detectAndCompute(img_sift,None)
+        cv2.drawKeypoints(img_sift, kp_sift, img_sift)
+        cv2.imshow('sift', img_sift)
 
+        surf = cv2.SURF(400)
+        kp_surf, des_surf = surf.detectAndCompute(img_surf, None)
+        cv2.drawKeypoints(img_surf, kp_surf, img_surf)
+        cv2.imshow('surf', img_surf)
+
+##        img1= open_eyes.copy()
+##        img2 = img.copy()
+
+##        # Create ORB detector with 1000 keypoints with a scaling pyramid factor
+##        # of 1.2
+##        orb = cv2.ORB(1000, 1.2)
+##
+##        # Detect keypoints of original image
+##        (kp1,des1) = orb.detectAndCompute(img1, None)
+##
+##        # Detect keypoints of rotated image
+##        (kp2,des2) = orb.detectAndCompute(img2, None)
+##
+##        # Create matcher
+##        bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+##
+##        # Do matching
+##        orb_matches = bf.match(des1,des2)
+##
+##        img1_2 = open_eyes.copy()
+##        img2_2 = img.copy() 
+##
+##        sift = cv2.SIFT()
+##        kp1_2, des1_2 = sift.detectAndCompute(img1_2,None)
+##        kp2_2, des2_2 = sift.detectAndCompute(img2_2,None)
+##
+##        
+##        FLANN_INDEX_KDTREE = 0
+##        flann_params = dict(algorithm = FLANN_INDEX_KDTREE,trees = 4)    
+##        matcher = cv2.FlannBasedMatcher(flann_params, {})
+##
+##
+##        print kp1_2
+##        print kp1
+##
+##        img_orb = img2.copy()
+##        img_sift = img2_2.copy()
+##        
+##        cv2.drawKeypoints(img2, kp2, img_orb)
+##        cv2.imshow('orb', img_orb)
+##        cv2.drawKeypoints(img2_2, kp2_2, img_sift)
+##        cv2.imshow('sift', img_sift)
+##
+##        cv2.imshow('open', open_eyes)
+##        cv2.imshow('camera', img)
         
-        FLANN_INDEX_KDTREE = 0
-        flann_params = dict(algorithm = FLANN_INDEX_KDTREE,trees = 4)    
-        matcher = cv2.FlannBasedMatcher(flann_params, {})
 
-        print des1
-        print des1_2
-        print des2
-        print des2_2
 
-        sift_matches = matcher.knnMatch(np.asarray(des1_2,np.float32),
-                                   np.asarray(des2_2,np.float32), 2)
-        print sift_matches
-        print orb_matches
-
-        # Sort the matches based on distance.  Least distance
-        # is better
-        matches = sorted(sift_matches, key=lambda val: val.distance)
-
-        print matches
-
-        
+##        print des1
+##        print des1_2
+##        print des2
+##        print des2_2
+##
+##        sift_matches = matcher.knnMatch(np.asarray(des1_2,np.float32),
+##                                   np.asarray(des2_2,np.float32), 2)
+##        print sift_matches
+##        print orb_matches
+##
+##        # Sort the matches based on distance.  Least distance
+##        # is better
+##        matches = sorted(sift_matches, key=lambda val: val.distance)
+##
+##        print matches
+##
+##        
 
         # Show only the top 10 matches
-        drawMatches(img1, kp1_2, img2, kp2_2, matches[:10])
+        #drawMatches(img1, kp1_2, img2, kp2_2, matches[:10])
         key_press = cv2.waitKey()
         if key_press == 27:
             cv2.destroyAllWindows()
