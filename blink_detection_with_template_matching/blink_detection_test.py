@@ -78,7 +78,9 @@ while True:
           blink_bottom_right = (blink_pos[0] + shut_shape[1],
                           blink_pos[1] + shut_shape[0])
           cv2.rectangle(img, blink_pos, blink_bottom_right, 255, 2)
-          blink_save_loc = os.path.join('captured_blinks', 'blink_number%d.png' % blinks_saved)
+          blink_save_loc = os.path.join('captured_blinks',
+                                        'blink_number%d.png'
+                                        % blinks_saved)
           #EVENTUALLY - I want to save the blink_img here if eyes were
             #successfully found, for use in subsequent iterations (to account
             #for small changes in light over time)
