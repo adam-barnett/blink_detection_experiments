@@ -21,3 +21,7 @@ Note that differently to some other approaches I attempt to find the eyes first 
 
 ## experiments_with_different_cascades
 This is a place for me to dump new facial/eye/glasses detecting cascades and test them to see how effective they are in various lights.  
+
+## rotational_invariance
+A number of experiments with different methods for finding the face even when it is rotating over time
+
