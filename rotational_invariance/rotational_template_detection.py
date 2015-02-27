@@ -23,7 +23,7 @@ class RotationalTester():
     def rotate_image(self, image, angle):
         if angle == 0: return image
         height, width = image.shape[:2]
-        rot_mat = cv2.getRotationMatrix2D((width/2, height/2), angle, 0.9)
+        rot_mat = cv2.getRotationMatrix2D((width/2, height/2), angle, 1.0)
         result = cv2.warpAffine(image, rot_mat, (width, height),
                                 flags=cv2.INTER_LINEAR)
         return result
@@ -38,7 +38,6 @@ class RotationalTester():
         for angle_mod in self.angles:
             angle_test = self.current_angle + angle_mod
             rot = self.rotate_image(image, angle_test)
-            cv2.imwrite("img%d.png"%angle_mod, rot)
             matches = cv2.matchTemplate(rot,self.eyes_image,method)
             _, val, _, loc = cv2.minMaxLoc(matches)
             vals.append(val)

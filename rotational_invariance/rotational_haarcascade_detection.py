@@ -13,7 +13,7 @@ means it fails after a while.
 def rotate_image(image, angle):
     if angle == 0: return image
     height, width = image.shape[:2]
-    rot_mat = cv2.getRotationMatrix2D((width/2, height/2), angle, 0.9)
+    rot_mat = cv2.getRotationMatrix2D((width/2, height/2), angle, 1.0)
     result = cv2.warpAffine(image, rot_mat, (width, height),
                             flags=cv2.INTER_LINEAR)
     return result
