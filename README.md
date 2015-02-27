@@ -25,3 +25,6 @@ This is a place for me to dump new facial/eye/glasses detecting cascades and tes
 ## rotational_invariance
 A number of experiments with different methods for finding the face even when it is rotating over time
 
+## scale_invariance
+A short experiment with scaling the face based on the distance between two eye templates so that the relative sizes of the eyes stay the same
+
