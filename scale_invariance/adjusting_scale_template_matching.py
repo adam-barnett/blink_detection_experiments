@@ -36,11 +36,12 @@ cam = cv2.VideoCapture(video_src)
 l_eye = cv2.imread('left.png',1)
 r_eye = cv2.imread('right.png',1)
 scale = 1.0
-original_distance = 40
+original_distance = 36
 prev_distance = original_distance
 COMP_METHOD = 'cv2.TM_CCOEFF_NORMED'
 left_rect = None
 right_rect = None
+none_found = 0
 
 while True:
     ret, img = cam.read()
@@ -49,12 +50,8 @@ while True:
         scaled_img = resize(img, scale)
         method = eval(COMP_METHOD)
         if left_rect is not None and right_rect is not None:
-##            cv2.rectangle(scaled_img, left_rect.left_top, left_rect.right_bot,
-##                          (255,0,0), 1)
             left_search = scaled_img[left_rect.t:left_rect.b,
                                      left_rect.l:left_rect.r]
-##            cv2.rectangle(scaled_img, right_rect.left_top, right_rect.right_bot,
-##                          (0,255,0), 1)
             right_search = scaled_img[right_rect.t:right_rect.b,
                                       right_rect.l:right_rect.r]
             cv2.imshow('left', left_search)
@@ -97,6 +94,12 @@ while True:
                  left_y_centre < max_r_loc[1] + r_eye.shape[0]):
                 left_rect = resize_rect(max_l_loc, l_eye.shape,1.0)
                 right_rect = resize_rect(max_r_loc, r_eye.shape,1.0)
+        else:
+            none_found += 1
+            if none_found == 5:
+                left_rect = None
+                right_rect= None
+                none_found = 0
         if left_rect is not None and right_rect is not None:
             cv2.rectangle(scaled_img, left_rect.left_top, left_rect.right_bot,
                           (255,0,0), 1)
