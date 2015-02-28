@@ -16,7 +16,7 @@ class RotationalTester():
         self.current_angle = 0
         self.angles = [0,2,-2,5,-5]#,10,-10, 15, -15, 20, -20, 25, -25, 30, -30,
                        #35, -35, 40, -40, 45, -45]
-        self.modifiers_used = []
+        self.modifiers_used = [[],[]]
         self.COMP_METHOD = 'cv2.TM_CCOEFF_NORMED'
         self.prev_loc = None
 
@@ -46,7 +46,8 @@ class RotationalTester():
                max_loc = loc
                max_ang = angle_mod
         self.current_angle = self.current_angle + max_ang
-        self.modifiers_used.append((max_ang, max_val))
+        self.modifiers_used[0].append(max_ang)
+        self.modifiers_used[1].append(max_val)
         self.prev_loc = max_loc
         return max_loc
 
