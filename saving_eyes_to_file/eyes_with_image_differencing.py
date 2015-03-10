@@ -70,7 +70,10 @@ def find_eyes(rects, width, height):
             (x1,y1) = box1.centre()
             (x2,y2) = box2.centre()
             if  abs(x1-x2) > width / 3 and abs(y1-y2) < height / 10:
-                return [box1, box2]
+                if box1.l > box2.r:
+                    return [box2, box1]
+                else:
+                    return [box1, box2]
     return None
 
 def rotate_image(image, angle):
@@ -147,7 +150,7 @@ while True:
                         if y < t:
                             t = y
                     boxes.append(box(t,b,l,r))
-                    #cv2.rectangle(img, (l,t), (r,b), (255,0,0), 2)
+                    cv2.rectangle(img, (l,t), (r,b), (255,0,0), 2)
                 eyes = find_eyes(boxes, rough_face_rect[2], rough_face_rect[3])
                 if eyes is not None and len(eyes) == 2:
                     eye1 = rot[eyes[0].t:eyes[0].b, eyes[0].l:eyes[0].r]
