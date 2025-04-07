@@ -14,7 +14,7 @@ class RotationalTester():
         self.eyes_image = cv2.imread('eyes.png', 0)
         self.save_count = 0
         self.current_angle = 0
-        self.angles = [0,2,-2,5,-5]#,10,-10, 15, -15, 20, -20, 25, -25, 30, -30,
+        self.angles = [0,5, -5]#[0,2,-2]#,5,-5]#,10,-10, 15, -15, 20, -20, 25, -25, 30, -30,
                        #35, -35, 40, -40, 45, -45]
         self.modifiers_used = [[],[]]
         self.COMP_METHOD = 'cv2.TM_CCOEFF_NORMED'
